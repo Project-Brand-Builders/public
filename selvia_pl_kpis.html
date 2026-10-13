@@ -1,0 +1,336 @@
+<title>P&L y KPIs Selvia Septiembre 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: cabecera oscura con lockup, título, modo claro/oscuro y pestañas; debajo paneles con KPI, P&L en tabla, gráfica diaria SVG y tablas de detalle. Sistema de diseño Project Brand Builders · Informes y tableros. */
+:root{
+  --canvas:#FFFFFF;--surface:#FFFFFF;--surface-raised:#F3F4F4;--ink:#000000;--ink-muted:#545B60;
+  --line:#D5D9DB;--line-strong:#7B8388;--inverse-surface:#000000;--inverse-ink:#FFFFFF;
+  --header-surface:#111416;--header-ink:#FFFFFF;
+  --data-1:#0B7A5C;--data-2:#0E7490;--data-3:#B45309;--data-4:#C2410C;--data-5:#475569;
+  --accent:var(--data-1);--positive:var(--data-1);--info:var(--data-2);--warning:var(--data-3);--danger:var(--data-4);--on-data:#FFFFFF;
+  --positive-soft:#0B7A5C14;--info-soft:#0E749014;--warning-soft:#B4530914;--danger-soft:#C2410C14;
+  --font-condensed:"Barlow Condensed","Oswald","Roboto Condensed","Arial Narrow",sans-serif;
+  --font-body:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --canvas:#0B0D0E;--surface:#111416;--surface-raised:#1B1F22;--ink:#FFFFFF;--ink-muted:#A7AEB3;
+  --line:#30363A;--line-strong:#6E767B;--inverse-surface:#FFFFFF;--inverse-ink:#000000;--header-surface:#000000;
+  --data-1:#34D399;--data-2:#22D3EE;--data-3:#FBBF24;--data-4:#FB923C;--data-5:#94A3B8;--on-data:#000000;
+  --positive-soft:#34D39926;--info-soft:#22D3EE26;--warning-soft:#FBBF2426;--danger-soft:#FB923C26;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --canvas:#0B0D0E;--surface:#111416;--surface-raised:#1B1F22;--ink:#FFFFFF;--ink-muted:#A7AEB3;
+  --line:#30363A;--line-strong:#6E767B;--inverse-surface:#FFFFFF;--inverse-ink:#000000;--header-surface:#000000;
+  --data-1:#34D399;--data-2:#22D3EE;--data-3:#FBBF24;--data-4:#FB923C;--data-5:#94A3B8;--on-data:#000000;
+  --positive-soft:#34D39926;--info-soft:#22D3EE26;--warning-soft:#FBBF2426;--danger-soft:#FB923C26;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--canvas);color:var(--ink);font:14px/1.45 var(--font-body);-webkit-text-size-adjust:100%;margin:0;padding:0}
+header{background:var(--header-surface);color:var(--header-ink);padding:16px 16px 0}
+.wrap{max-width:1280px;margin:0 auto}
+.top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:14px}
+.brand svg{width:40px;height:40px;flex:none}
+.brand .sep{width:1px;height:38px;background:#ffffff55}
+.brand .p{font:300 12px/1 var(--font-condensed);letter-spacing:.42em;text-transform:uppercase}
+.brand .b{font:800 22px/1 var(--font-condensed);letter-spacing:.04em;text-transform:uppercase;margin-top:3px}
+.brand .t{font:300 9px/1 var(--font-condensed);letter-spacing:.38em;text-transform:uppercase;margin-top:4px;opacity:.75}
+.title{font:700 26px/1.05 var(--font-condensed);letter-spacing:.03em;text-transform:uppercase}
+.sub{font-size:12px;opacity:.75;margin-top:2px}
+button,select,input{font:inherit;color:inherit}
+.tgl{background:transparent;border:1px solid #ffffff88;color:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.tgl:hover{background:#ffffff22}
+nav{display:flex;gap:2px;overflow-x:auto;margin-top:14px;scrollbar-width:thin}
+nav button{background:transparent;border:0;color:#ffffffb0;padding:11px 16px;cursor:pointer;font:600 14px var(--font-condensed);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;border-bottom:3px solid transparent}
+nav button[aria-selected="true"]{color:#fff;border-bottom-color:#fff}
+nav button:hover{color:#fff}
+nav .n{display:inline-block;min-width:20px;padding:0 6px;margin-left:6px;border-radius:99px;background:#ffffff26;font:600 11px/18px var(--font-body);letter-spacing:0}
+main{padding:20px 16px 48px}
+.panel{display:none}.panel.on{display:block}
+h2{font:700 24px var(--font-condensed);letter-spacing:.04em;text-transform:uppercase;margin:0 0 4px}
+h3{font:700 17px var(--font-condensed);letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px}
+.lead{color:var(--ink-muted);margin:0 0 16px;max-width:90ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.grid{display:grid;gap:12px}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,215px),1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.stack{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.card.kpi{border-top:4px solid var(--c,var(--data-1))}
+.kpi .v{font:700 38px/1 var(--font-condensed);letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:12px;color:var(--ink-muted);margin-top:6px;text-transform:uppercase;letter-spacing:.05em}
+.kpi .d{font-size:12px;margin-top:2px;color:var(--ink-muted)}
+.kpi .d.up{color:var(--positive)}.kpi .d.dn{color:var(--danger)}.kpi .d.wn{color:var(--warning)}
+ol.bul{margin:0;padding:0;list-style:none;counter-reset:b}
+ol.bul li{counter-increment:b;display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+ol.bul li:last-child{border:0}
+ol.bul li:before{content:counter(b);flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-data);font:700 15px/28px var(--font-condensed);text-align:center}
+.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:0 0 12px;padding:12px;background:var(--surface-raised);border:1px solid var(--line);border-radius:10px}
+.tools label{display:flex;flex-direction:column;gap:3px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-muted)}
+.tools input[type=number]{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px;width:110px;color:var(--ink);font-variant-numeric:tabular-nums}
+.tools label.ck{flex-direction:row;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink)}
+.tools button{background:var(--accent);color:var(--on-data);border:0;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:10px;max-height:70vh}
+.tw.full{max-height:none}
+table{border-collapse:collapse;width:100%;min-width:560px;background:var(--surface)}
+th{position:sticky;top:0;background:var(--header-surface);color:#fff;text-align:left;font:600 13px var(--font-condensed);letter-spacing:.08em;text-transform:uppercase;padding:9px 10px;white-space:nowrap}
+th.num{text-align:right}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;font-size:13px}
+tr:hover td{background:var(--surface-raised)}
+tr.grp td{background:var(--surface-raised);font:700 14px var(--font-condensed);letter-spacing:.08em;text-transform:uppercase;border-top:2px solid var(--ink)}
+tr.sum td{font-weight:700;border-top:1px solid var(--line-strong)}
+tr.big td{font-weight:800;font-size:14px;border-top:2px solid var(--ink);background:var(--surface-raised)}
+tfoot td{font-weight:700;border-top:2px solid var(--ink);border-bottom:0;background:var(--surface-raised)}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mut{color:var(--ink-muted)}
+.neg{color:var(--danger)}
+.src{color:var(--ink-muted);font-size:12px;min-width:200px}
+.u{display:inline-flex;align-items:center;gap:5px;font:700 11px var(--font-body);letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:99px;border:1.5px solid var(--c,var(--ink));white-space:nowrap}
+.u.asig{background:var(--positive);color:var(--on-data);--c:var(--positive)}
+.u.est{background:var(--info-soft);color:var(--info);border-style:dashed;--c:var(--info)}
+.u.warn{background:var(--warning-soft);color:var(--warning);--c:var(--warning)}
+.u.alert{background:var(--danger);color:var(--on-data);--c:var(--danger)}
+.call{display:flex;gap:11px;padding:12px 14px;border-radius:10px;background:var(--bgc);border:1px solid color-mix(in srgb,var(--c) 35%,transparent)}
+.call.nota{--c:var(--info);--bgc:var(--info-soft)}.call.dato{--c:var(--positive);--bgc:var(--positive-soft)}.call.aviso{--c:var(--warning);--bgc:var(--warning-soft)}.call.alerta{--c:var(--danger);--bgc:var(--danger-soft)}
+.call i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--c);color:var(--on-data);font:700 14px/24px var(--font-body);text-align:center;font-style:normal}
+.call>div{min-width:0}
+.call b{display:block;font:700 13px var(--font-condensed);letter-spacing:.06em;text-transform:uppercase;color:var(--c)}
+.call p{margin:2px 0 0;font-size:13px}
+.tag{display:inline-block;padding:1px 8px;border-radius:6px;background:var(--surface-raised);border:1px solid var(--line);font-size:12px;white-space:nowrap}
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--ink-muted);font:11px var(--font-body)}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--ink-muted);margin-top:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:22px;height:10px;border:1.5px solid var(--ink);vertical-align:middle;margin-right:6px}
+.legend i.a{background:var(--data-1);border-color:var(--data-1)}
+.legend i.e{background:repeating-linear-gradient(135deg,var(--data-2) 0 2px,transparent 2px 6px);border-color:var(--data-2)}
+.dr{display:grid;grid-template-columns:150px minmax(0,1fr) 120px;gap:12px;align-items:center;padding:6px 0}
+.dr .dl{font-weight:600;font-size:13px}
+.dr .bar{display:flex;height:20px;min-width:0;background:var(--surface-raised)}
+.dr .bar i{display:block;height:100%}
+.dr .bar .sa{background:var(--data-1)}
+.dr .bar .se{background:repeating-linear-gradient(135deg,var(--data-2) 0 2px,transparent 2px 6px);border:1.5px solid var(--data-2)}
+.dr .dv{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-muted);font-size:13px}
+.notes{margin:0;padding-left:18px}
+.notes li{margin-bottom:8px;color:var(--ink-muted)}
+.notes b{color:var(--ink)}
+footer{padding:20px 16px 40px;color:var(--ink-muted);font-size:12px}
+@media (max-width:640px){.title{font-size:21px}.kpi .v{font-size:30px}.dr{grid-template-columns:100px minmax(0,1fr) 84px}}
+@media (prefers-reduced-motion:no-preference){.panel.on{animation:in .18s ease-out}@keyframes in{from{opacity:.4}to{opacity:1}}}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 4h6v32H8z" fill="#fff"/><path d="M17 4l15 8-9 6.5L33 25 17 36z" fill="#fff"/></svg>
+        <div class="sep"></div>
+        <div><div class="p">Project</div><div class="b">Brand Builders</div><div class="t">Build what can grow</div></div>
+      </div>
+      <button class="tgl" id="theme" aria-label="Cambiar entre modo claro y oscuro">Modo oscuro</button>
+    </div>
+    <div style="margin-top:18px">
+      <div class="title">Selvia · P&amp;L y KPIs · Septiembre 2026</div>
+      <div class="sub">Tienda tryselvia.com · cifras en euros salvo que se indique · pedidos por fecha de creación · datos al 13/10/2026</div>
+    </div>
+    <nav role="tablist" id="tabs"></nav>
+  </div>
+</header>
+<main><div class="wrap" id="app"></div></main>
+<footer><div class="wrap">Fuentes: Shopify (pedidos, pagos, comisiones y disputas), OMS_SELVIA, base de DropSure, Meta Ads, movimientos bancarios de septiembre, base de empleados y tasas de referencia del BCE. Las estimaciones están marcadas como tales.</div></footer>
+
+<script id="data" type="application/json">{"Ls":{"cogs":40487.42074163501,"gross":119528.30714882536,"agencia":2689.8215968383392,"pub":93827.57960608706,"ads":0,"disp":1119.7643619099997,"vars":104679.48530409049,"contrib":14848.821844734877,"shop":4143.828705186021,"klav":339.69021065334937,"fuera":1096.7770148097497,"pers":7542.656470284197,"estr":13122.952400933316,"net":1725.869443801561},"s":{"bruto":162492.03251706364,"reemb":2476.3046266032434,"neto":160015.72789046037,"fee":9732.141336093428,"prod":11672.902958593584,"envio":28814.51778304143,"meta":89660.7198946113,"isda":1477.0381146374102,"pedidos":3712,"enviados":3651,"nc":3697},"W":{"s":0.67330719044885},"P":{"shop":6154.4400000000005,"klav":504.51000000000005,"fuera":1628.94,"pers":11202.4,"total":19490.29},"K":{"pedidos":3712,"ventas_usd":183623.83,"neto":160015.72789046037,"meta":89660.7198946113,"pub":93827.57960608706,"nc_rev":153507.58,"nuevos":3532,"units":7803,"aov_usd":49.467626616379306,"aov_eur":43.10768531531799,"roas":1.7846803826530224,"roas_full":1.7054231662188093,"ncroas":1.7120939761725116,"ncroas_full":1.6360603041805002,"cac":25.385254783298784,"cac_full":26.56499988847312,"gasto_dia":3127.585986869569,"meta_dia":2988.6906631537104,"cogs_pedido":10.907171536000812,"cogs_unidad":5.188699313294247},"dias":["2026-09-01","2026-09-02","2026-09-03","2026-09-04","2026-09-05","2026-09-06","2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-12","2026-09-13","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19","2026-09-20","2026-09-21","2026-09-22","2026-09-23","2026-09-24","2026-09-25","2026-09-26","2026-09-27","2026-09-28","2026-09-29","2026-09-30"],"spend":[0.0,0.0,0.0,0.0,0.0,6.55,3.19,11.71,133.04,334.46,1044.75,2219.23,3087.17,2820.84,3444.35,3774.21,4753.13,5584.53,5750.08,3577.55,5313.5,5314.4,6316.16,2419.36,4546.49,6066.12,6805.41,5318.53,7635.22,7547.6],"mercados":[{"c":"ES","n":"España","pedidos":2363,"ventas":113737.77,"renov":46,"primera":2298,"nuevos":2245},{"c":"US","n":"Estados Unidos","pedidos":1020,"ventas":51462.42,"renov":14,"primera":998,"nuevos":973},{"c":"MX","n":"México","pedidos":222,"ventas":13703.55,"renov":0,"primera":218,"nuevos":216},{"c":"GB","n":"Reino Unido","pedidos":71,"ventas":2733.36,"renov":7,"primera":57,"nuevos":64},{"c":"CA","n":"Canadá","pedidos":36,"ventas":1986.73,"renov":0,"primera":35,"nuevos":34}],"uni":[{"c":"CA","u":1,"n":10,"venta":32.41,"env":5.3,"tarifa":5.3},{"c":"CA","u":3,"n":22,"venta":62.46,"env":8.2,"tarifa":8.2},{"c":"CA","u":5,"n":4,"venta":72.15,"env":17.1,"tarifa":11.9},{"c":"ES","u":1,"n":1187,"venta":34.43,"env":8.42,"tarifa":4.9},{"c":"ES","u":3,"n":1078,"venta":59.69,"env":10.03,"tarifa":6.5},{"c":"ES","u":5,"n":92,"venta":88.49,"env":12.42,"tarifa":8.4},{"c":"GB","u":1,"n":42,"venta":27.66,"env":3.9,"tarifa":3.9},{"c":"GB","u":3,"n":23,"venta":48.61,"env":5.8,"tarifa":5.8},{"c":"GB","u":5,"n":6,"venta":75.62,"env":7.7,"tarifa":7.7},{"c":"MX","u":1,"n":106,"venta":41.08,"env":6.6,"tarifa":6.6},{"c":"MX","u":3,"n":103,"venta":76.74,"env":11.4,"tarifa":11.4},{"c":"MX","u":5,"n":13,"venta":111.15,"env":16.46,"tarifa":16.0},{"c":"US","u":1,"n":506,"venta":34.67,"env":6.14,"tarifa":6.1},{"c":"US","u":3,"n":445,"venta":61.97,"env":9.86,"tarifa":9.8},{"c":"US","u":5,"n":68,"venta":91.41,"env":13.43,"tarifa":13.3}],"renov_mes":{"2026-09":67,"2026-10":211},"ped_mes":{"2026-04":1,"2026-05":2,"2026-08":246,"2026-09":3712,"2026-10":2534},"disp":{"lost":109.98,"open":909.41,"won":181.85,"n_cb_not_won":18,"n":24},"cuota":15,"tarifa":{"ES|1":4.9,"ES|2":5.3,"ES|3":6.5,"ES|4":7.4,"ES|5":8.4,"US|1":6.1,"US|2":7.5,"US|3":9.8,"US|4":11.3,"US|5":13.3,"MX|1":6.6,"MX|2":8.3,"MX|3":11.4,"MX|4":13.2,"MX|5":16.0,"GB|1":3.9,"GB|2":4.6,"GB|3":5.8,"GB|4":6.7,"GB|5":7.7,"CA|1":5.3,"CA|2":6.8,"CA|3":8.2,"CA|4":10.1,"CA|5":11.9},"iss_es":3.5,"O":{"dias":11,"pedidos":2405,"neto_eur":122325.65173507239,"neto_usd":137263.6,"aov_eur":50.86305685449995,"aov_usd":57.07426195426196,"meta":68048.86644727855,"pub":70433.52142998845,"nuevos":2139,"renov":192,"roas":1.7976148335967543,"roas_full":1.7367533136429245,"ncroas":1.669292290658829,"ncroas_full":1.6127753638078033,"cac":31.813401798634196,"cac_full":32.92824751285108,"gasto_dia":6403.0474027262235,"nc_rev":113593.44814851433},"mercadosO":[{"c":"ES","n":"España","pedidos":643,"ventas":33091.55,"renov":96,"nuevos":528},{"c":"US","n":"Estados Unidos","pedidos":1090,"ventas":60457.16,"renov":81,"nuevos":966},{"c":"MX","n":"México","pedidos":656,"ventas":43217.33,"renov":0,"nuevos":644},{"c":"GB","n":"Reino Unido","pedidos":15,"ventas":442.46,"renov":15,"nuevos":0},{"c":"CA","n":"Canadá","pedidos":1,"ventas":55.1,"renov":0,"nuevos":1}],"series":{"dias":["2026-09-01","2026-09-02","2026-09-03","2026-09-04","2026-09-05","2026-09-06","2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-12","2026-09-13","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19","2026-09-20","2026-09-21","2026-09-22","2026-09-23","2026-09-24","2026-09-25","2026-09-26","2026-09-27","2026-09-28","2026-09-29","2026-09-30","2026-10-01","2026-10-02","2026-10-03","2026-10-04","2026-10-05","2026-10-06","2026-10-07","2026-10-08","2026-10-09","2026-10-10","2026-10-11"],"spend":[0.0,0.0,0.0,0.0,0.0,6.55,3.19,11.71,133.04,334.46,1044.75,2219.23,3087.17,2820.84,3444.35,3774.21,4753.13,5584.53,5750.08,3577.55,5313.5,5314.4,6316.16,2419.36,4546.49,6066.12,6805.41,5318.53,7635.22,7547.6,8133.29,5134.3,4802.26,6367.48,5202.67,6239.3,6726.75,6302.62,6620.0,7112.32,7792.53],"neto":[2165.0,2588.31,2740.22,71.24,180.12,3025.2,2260.65,2355.11,4051.35,4324.41,2300.45,2659.95,3085.21,4021.32,4759.58,5570.13,6260.46,7226.87,7949.03,6898.46,6817.13,7707.21,8211.76,3392.04,7963.14,9309.97,10688.92,7042.63,11742.87,12646.98,12692.47,8718.59,8425.18,13933.74,10012.43,10759.99,11308.62,11666.86,12423.43,10217.12,12167.21],"nc":[2021.06,2467.45,2662.54,71.18,179.94,3022.5,2230.78,2353.03,3974.83,4201.02,2136.81,2657.5,2910.63,3638.01,4571.88,5329.82,6050.88,6926.48,7740.66,6763.56,6462.9,7307.16,7835.79,3300.01,7482.86,8958.22,10085.25,6767.44,11250.97,12146.41,11879.81,8332.94,8010.09,13128.13,9067.65,9998.65,10408.56,10305.3,11977.07,9546.43,10938.81]}}</script>
+<script>
+var $=function(s,r){return (r||document).querySelector(s)};
+var root=document.documentElement,tb=$('#theme');
+function isDark(){var t=root.getAttribute('data-theme');return t?t==='dark':!!(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)}
+function label(){tb.textContent=isDark()?'Modo claro':'Modo oscuro'}
+function setTheme(t){root.setAttribute('data-theme',t);label();try{localStorage.setItem('pbb-theme',t)}catch(e){}}
+var saved=null;try{saved=localStorage.getItem('pbb-theme')}catch(e){}
+root.setAttribute('data-theme',saved==='dark'?'dark':'light');
+label();
+tb.onclick=function(){setTheme(isDark()?'light':'dark')};
+
+var D=JSON.parse($('#data').textContent),K=D.K,L=D.Ls,S=D.s;
+function f0(n){return (n<0?'−':'')+Math.abs(n).toLocaleString('de-DE',{maximumFractionDigits:0,minimumFractionDigits:0})}
+function f1(n){return (n<0?'−':'')+Math.abs(n).toLocaleString('de-DE',{maximumFractionDigits:1,minimumFractionDigits:1})}
+function f2(n){return (n<0?'−':'')+Math.abs(n).toLocaleString('de-DE',{maximumFractionDigits:2,minimumFractionDigits:2})}
+function eur(n){return f2(n)+' €'}function usd(n){return f2(n)+' $'}function pc(n){return f1(n)+' %'}
+function x2(n){return f2(n)+'x'}
+function div(a,b){return b?a/b:0}
+function pill(k,t){return '<span class="u '+k+'">'+t+'</span>'}
+function call(k,sym,title,body){return '<div class="call '+k+'"><i>'+sym+'</i><div><b>'+title+'</b><p>'+body+'</p></div></div>'}
+function kpi(v,l,d,cls,c){return '<div class="card kpi" style="--c:'+c+'"><div class="v">'+v+'</div><div class="l">'+l+'</div><div class="d '+(cls||'')+'">'+d+'</div></div>'}
+var N=S.neto;
+function row(lbl,val,src,cls,pl){return '<tr class="'+(cls||'')+'"><td>'+lbl+'</td><td class="num'+(val<0?' neg':'')+'">'+eur(val)+'</td><td class="num mut">'+pc(div(val,N)*100)+'</td><td>'+(pl||'')+'</td><td class="src">'+(src||'')+'</td></tr>'}
+function prow(lbl,v,src){return '<tr><td>'+lbl+'</td><td class="num">'+pc(v)+'</td><td class="num mut"></td><td></td><td class="src">'+(src||'')+'</td></tr>'}
+function grp(t){return '<tr class="grp"><td colspan="5">'+t+'</td></tr>'}
+
+function renderPL(){
+  var h='<h2>P&amp;L de septiembre de 2026</h2><p class="lead">Estado de resultados de Selvia en euros. Los ingresos y los costos corresponden a los pedidos creados entre el 1 y el 30 de septiembre, sin importar la fecha de cobro.</p>';
+  h+='<div class="grid g4">'
+    +kpi(eur(N),'Ingreso neto',f0(S.pedidos)+' pedidos','', 'var(--data-1)')
+    +kpi(pc(div(L.gross,N)*100),'Margen bruto',eur(L.gross)+' de ganancia bruta','', 'var(--data-2)')
+    +kpi(eur(L.contrib),'Margen de contribución',pc(div(L.contrib,N)*100)+' del ingreso neto','', 'var(--data-3)')
+    +kpi(eur(L.net),'Ganancia neta',pc(div(L.net,N)*100)+' del ingreso neto',L.net>=0?'up':'dn', L.net>=0?'var(--data-1)':'var(--data-4)')
+    +'</div>';
+  h+='<div class="tw full" style="margin-top:12px"><table><thead><tr><th>Concepto</th><th class="num">Septiembre 2026</th><th class="num">% ingreso neto</th><th>Estado</th><th>Fuente / nota</th></tr></thead><tbody>';
+  h+=grp('Ingresos');
+  h+=row('Ventas brutas (después de descuentos)',S.bruto,'Shopify Payments: cobros por pedido, con envío cobrado, por fecha de creación del pedido. La tienda cobra en dólares y se convierte a euros con la tasa BCE del día',null,pill('asig','Confirmado'));
+  h+=row('Reembolsos',-S.reemb,'Shopify Payments: reembolsos imputados al pedido original',null,pill('asig','Confirmado'));
+  h+=row('Ingreso neto',N,'Ventas brutas − reembolsos','sum');
+  h+=grp('Costo de mercancía');
+  h+=row('Costo de producto',-S.prod,'Unidades vendidas × costo del catálogo de producto (1,70 $ por unidad de cápsulas, más regalos)',null,pill('asig','Confirmado'));
+  h+=row('Envío y regalos (incluye IOSS)',-S.envio,'Importe real facturado por DropSure por pedido, sin su línea de producto',null,pill('asig','Confirmado'));
+  h+=row('COGS (producto + envío)',-L.cogs,'Todos los pedidos del mes con costo: '+f0(S.nc)+' de '+f0(S.pedidos)+'. El resto son pedidos cancelados o archivados sin envío','sum');
+  h+=row('Ganancia bruta',L.gross,'Ingreso neto − COGS','big');
+  h+=prow('Margen bruto %',div(L.gross,N)*100,'Ganancia bruta / ingreso neto');
+  h+=grp('Costos variables (directos de venta)');
+  h+=row('Comisiones de procesamiento',-S.fee,'Shopify Payments: tarifa y cuota fija de cada transacción, en la fecha del pedido',null,pill('asig','Confirmado'));
+  h+=row('Gasto publicitario (Facebook)',-L.pub,'Gasto Meta '+eur(S.meta)+' + ISDA del 3 % sobre anuncios en España '+eur(S.isda)+' + fee de agencia del 3 % '+eur(L.agencia),null,pill('asig','Confirmado'));
+  h+=row('Disputas y chargebacks',-L.disp,'Contracargos de pedidos de septiembre, perdidos y abiertos ('+usd(D.disp.lost+D.disp.open)+'), más '+usd(D.cuota)+' por cada contracargo no ganado',null,pill('est','Estimado'));
+  h+=row('Total costos variables',-L.vars,'','sum');
+  h+=grp('Margen de contribución');
+  h+=row('Margen de contribución',L.contrib,'Ganancia bruta − costos variables','big');
+  h+=prow('Margen contribución %',div(L.contrib,N)*100,'Margen de contribución / ingreso neto');
+  h+=grp('Costos de estructura');
+  h+=row('Apps & Software (Shopify)',-L.shop,'Suscripciones de Shopify, pagos de banco de septiembre',null,pill('asig','Confirmado'));
+  h+=row('Klaviyo',-L.klav,'Suscripciones de Klaviyo, pagos de banco de septiembre',null,pill('asig','Confirmado'));
+  h+=row('Apps/otros fuera de Shopify',-L.fuera,'Aplicaciones y herramientas aprobadas por el equipo como parte del P&L, más comisiones bancarias',null,pill('asig','Confirmado'));
+  h+=row('Agencia Email MKT',0,'Sin movimientos en septiembre',null,pill('warn','Sin dato'));
+  h+=row('Sueldos / Personal',-L.pers,'Sueldo neto mensual del personal activo en septiembre',null,pill('asig','Confirmado'));
+  h+=row('Total estructura',-L.estr,'Suma de apps, software y personal','sum');
+  h+=grp('Resultado');
+  h+=row('Ganancia neta (Net Profit)',L.net,'Margen de contribución − total estructura','big');
+  h+=prow('Margen neto %',div(L.net,N)*100,'Ganancia neta / ingreso neto');
+  h+='</tbody></table></div>';
+  return h;
+}
+
+
+/* gráficos diarios 1 sep - 12 oct */
+function axisTop(mx){var step=Math.pow(10,Math.floor(Math.log10(mx)));var top=Math.ceil(mx/step)*step;if(top/step>5)step*=2;else if(top/step<3)step/=2;top=Math.ceil(mx/step)*step;return [top,step]}
+function chartFrame(n,top,step,fmt,W,H,m){
+  var iw=W-m.l-m.r,ih=H-m.t-m.b;
+  function X(i){return m.l+iw*(i+.5)/n}function Y(v){return m.t+ih*(1-v/top)}
+  var s='';
+  for(var g=0;g<=top+step/1000;g+=step)s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(g)+'" y2="'+Y(g)+'" stroke="var(--line)" stroke-width="1" fill="none"/><text x="'+(m.l-6)+'" y="'+(Y(g)+4)+'" text-anchor="end">'+fmt(g)+'</text>';
+  var oc=D.series.dias.indexOf('2026-10-01');
+  if(oc>0){var xo=m.l+iw*oc/n;s+='<line x1="'+xo+'" x2="'+xo+'" y1="'+m.t+'" y2="'+(m.t+ih)+'" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="2 3" fill="none"/><text x="'+(xo+6)+'" y="'+(m.t+12)+'">Octubre</text>'}
+  D.series.dias.forEach(function(d,i){if(i%3===0||i===n-1||d==='2026-10-01')s+='<text x="'+X(i)+'" y="'+(H-12)+'" text-anchor="middle">'+d.slice(8)+(d.slice(8)==='01'||i===0?'/'+d.slice(5,7):'')+'</text>'});
+  return {s:s,X:X,Y:Y,iw:iw,ih:ih};
+}
+function roll(arr,w){return arr.map(function(_,i){var a=Math.max(0,i-w+1),s=0;for(var j=a;j<=i;j++)s+=arr[j];return s/(i-a+1)})}
+function spendChart(){
+  var W=900,H=270,m={l:56,r:12,t:12,b:34},sp=D.series.spend,n=sp.length;
+  var tt=axisTop(Math.max.apply(null,sp));var f=chartFrame(n,tt[0],tt[1],f0,W,H,m);
+  var s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Gasto publicitario diario de Selvia en euros, del 1 de septiembre al 11 de octubre de 2026">'+f.s;
+  var bw=Math.max(4,f.iw/n-4);
+  sp.forEach(function(v,i){s+='<rect x="'+(f.X(i)-bw/2)+'" y="'+f.Y(v)+'" width="'+bw+'" height="'+(m.t+f.ih-f.Y(v))+'" fill="var(--data-1)"/>'});
+  var avg=sp.reduce(function(a,b){return a+b},0)/n;
+  s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+f.Y(avg)+'" y2="'+f.Y(avg)+'" stroke="var(--data-4)" stroke-width="2" stroke-dasharray="3 4" fill="none"/>';
+  var ma=roll(sp,7),p='';ma.forEach(function(v,i){p+=(i?'L':'M')+f.X(i)+' '+f.Y(v)});
+  s+='<path d="'+p+'" fill="none" stroke="var(--data-3)" stroke-width="2.5" stroke-dasharray="7 5"/>';
+  return s+'</svg>';
+}
+function roasChart(){
+  var W=900,H=270,m={l:56,r:12,t:12,b:34},n=D.series.dias.length,sp=D.series.spend,nt=D.series.neto,nc=D.series.nc;
+  var r1=[],r2=[],from=-1;
+  for(var i=0;i<n;i++){var a=Math.max(0,i-6),S1=0,N1=0,C1=0;for(var j=a;j<=i;j++){S1+=sp[j];N1+=nt[j];C1+=nc[j]}
+    if(from<0&&S1>=10000)from=i; /* hay ROAS cuando el gasto de 7 días ya es relevante */
+    r1.push(from>=0&&i>=from?N1/S1:null);r2.push(from>=0&&i>=from?C1/S1:null)}
+  var vals=r1.concat(r2).filter(function(v){return v!=null}),lo=Math.min.apply(null,vals),hi=Math.max.apply(null,vals);
+  var step=0.25,ymin=Math.floor((lo-0.1)/step)*step,ymax=Math.ceil((hi+0.1)/step)*step;
+  var iw=W-m.l-m.r,ih=m.t+0,H2=H-m.t-m.b;
+  function X(i){return m.l+iw*(i+.5)/n}function Y(v){return m.t+H2*(1-(v-ymin)/(ymax-ymin))}
+  var s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="ROAS y ncROAS de Selvia, media móvil de 7 días, del 1 de septiembre al 11 de octubre de 2026">';
+  for(var g=ymin;g<=ymax+1e-9;g+=step)s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(g)+'" y2="'+Y(g)+'" stroke="var(--line)" stroke-width="1" fill="none"/><text x="'+(m.l-6)+'" y="'+(Y(g)+4)+'" text-anchor="end">'+f2(g)+'x</text>';
+  var oc=D.series.dias.indexOf('2026-10-01');
+  if(oc>0){var xo=m.l+iw*oc/n;s+='<line x1="'+xo+'" x2="'+xo+'" y1="'+m.t+'" y2="'+(m.t+H2)+'" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="2 3" fill="none"/><text x="'+(xo+6)+'" y="'+(m.t+12)+'">Octubre</text>'}
+  D.series.dias.forEach(function(d,i){if(i%3===0||i===n-1||d==='2026-10-01')s+='<text x="'+X(i)+'" y="'+(H-12)+'" text-anchor="middle">'+d.slice(8)+(d.slice(8)==='01'||i===0?'/'+d.slice(5,7):'')+'</text>'});
+  function path(a){var p='',on=false;a.forEach(function(v,i){if(v==null){on=false;return}p+=(on?'L':'M')+X(i)+' '+Y(v);on=true});return p}
+  s+='<path d="'+path(r1)+'" fill="none" stroke="var(--data-1)" stroke-width="3"/>';
+  s+='<path d="'+path(r2)+'" fill="none" stroke="var(--data-5)" stroke-width="3" stroke-dasharray="7 5"/>';
+  r1.forEach(function(v,i){if(v!=null)s+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="2.5" fill="var(--data-1)" stroke="var(--data-1)"/>'});
+  r2.forEach(function(v,i){if(v!=null)s+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="2.5" fill="var(--data-5)" stroke="var(--data-5)"/>'});
+  var last=n-1;
+  if(r1[last]!=null){s+='<text x="'+(X(last)-6)+'" y="'+(Y(r1[last])-9)+'" text-anchor="end" style="fill:var(--ink);font-weight:700">'+x2(r1[last])+'</text><text x="'+(X(last)-6)+'" y="'+(Y(r2[last])+17)+'" text-anchor="end" style="fill:var(--ink);font-weight:700">'+x2(r2[last])+'</text>'}
+  return s+'</svg>';
+}
+function kpi2(l,a,b,sa,sb,c){
+  return '<div class="card kpi" style="--c:'+c+'"><div class="l" style="margin:0 0 8px">'+l+'</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'
+   +'<div><div class="d" style="margin:0 0 2px">Septiembre</div><div class="v">'+a+'</div><div class="d">'+sa+'</div></div>'
+   +'<div><div class="d" style="margin:0 0 2px">Octubre, 1 al '+D.O.dias+'</div><div class="v">'+b+'</div><div class="d">'+sb+'</div></div></div></div>';
+}
+function renderKPI(){
+  var O=D.O,tr=function(m){return m.reduce(function(a,x){return a+x.renov},0)};
+  var rS=tr(D.mercados),rO=tr(D.mercadosO);
+  var h='<h2>KPIs de Selvia: septiembre y octubre</h2><p class="lead">Septiembre completo y octubre del 1 al 11 de octubre de 2026, el último día con gasto publicitario disponible. Los pedidos y los importes están en la fecha de creación del pedido; los euros usan la tasa BCE del día.</p>';
+  h+='<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))">'
+    +kpi2('AOV',eur(K.aov_eur),eur(O.aov_eur),usd(K.aov_usd)+' · '+f0(K.pedidos)+' pedidos',usd(O.aov_usd)+' · '+f0(O.pedidos)+' pedidos','var(--data-1)')
+    +kpi2('ROAS',x2(K.roas),x2(O.roas),'Ingreso neto / gasto Meta de '+eur(K.meta),'Ingreso neto / gasto Meta de '+eur(O.meta),'var(--data-2)')
+    +kpi2('ncROAS',x2(K.ncroas),x2(O.ncroas),'Ingreso de clientes nuevos / gasto Meta','Ingreso de clientes nuevos / gasto Meta','var(--data-2)')
+    +kpi2('CAC',eur(K.cac),eur(O.cac),f0(K.nuevos)+' clientes nuevos',f0(O.nuevos)+' clientes nuevos','var(--data-3)')
+    +kpi2('Gasto publicitario diario',eur(K.gasto_dia),eur(O.gasto_dia),'Media de 30 días, con ISDA y fee de agencia','Media de '+O.dias+' días, con ISDA y fee de agencia','var(--data-3)')
+    +kpi2('% de renovaciones',pc(div(rS,K.pedidos)*100),pc(div(rO,O.pedidos)*100),rS+' de '+f0(K.pedidos)+' pedidos',rO+' de '+f0(O.pedidos)+' pedidos','var(--data-5)')
+    +'</div>';
+  h+='<div class="card" style="margin-top:12px"><h3>Gasto publicitario diario (€)</h3>'+spendChart()+'<div class="legend"><span><i class="a"></i>Gasto del día, con ISDA y fee de agencia</span><span><i style="background:repeating-linear-gradient(135deg,var(--data-3) 0 2px,transparent 2px 6px);border-color:var(--data-3)"></i>Media móvil de 7 días</span><span><i style="background:var(--data-4);border-color:var(--data-4);height:3px"></i>Media del periodo: '+eur(D.series.spend.reduce(function(a,b){return a+b},0)/D.series.spend.length)+'</span></div></div>';
+  h+='<div class="card" style="margin-top:12px"><h3>ROAS y ncROAS (media móvil de 7 días)</h3>'+roasChart()+'<div class="legend"><span><i class="a"></i>ROAS: ingreso neto / gasto Meta</span><span><i style="background:repeating-linear-gradient(135deg,var(--data-5) 0 2px,transparent 2px 6px);border-color:var(--data-5)"></i>ncROAS: ingreso de clientes nuevos / gasto Meta</span></div><p class="mut" style="font-size:12px;margin:8px 0 0">El eje no empieza en cero para que se vea la diferencia entre ambas líneas. Empieza el 15/09, cuando el gasto de los últimos 7 días ya supera 10.000 €.</p></div>';
+  h+='<div class="grid g2" style="margin-top:12px">';
+  /* renovaciones por mercado */
+  var cs=['ES','US','MX','GB','CA'];
+  function byC(a){var o={};a.forEach(function(m){o[m.c]=m});return o}
+  var ms=byC(D.mercados),mo=byC(D.mercadosO),tp=0,trS=0,tpO=0,trO=0;
+  h+='<div class="card"><h3>Renovaciones de suscripción por mercado</h3><div class="tw"><table><thead><tr><th>Mercado</th><th class="num">Sep. pedidos</th><th class="num">Sep. renov.</th><th class="num">Sep. %</th><th class="num">Oct. pedidos</th><th class="num">Oct. renov.</th><th class="num">Oct. %</th></tr></thead><tbody>';
+  cs.forEach(function(c){var a=ms[c],b=mo[c];tp+=a.pedidos;trS+=a.renov;tpO+=b.pedidos;trO+=b.renov;h+='<tr><td>'+a.n+'</td><td class="num">'+f0(a.pedidos)+'</td><td class="num">'+f0(a.renov)+'</td><td class="num">'+pc(div(a.renov,a.pedidos)*100)+'</td><td class="num">'+f0(b.pedidos)+'</td><td class="num">'+f0(b.renov)+'</td><td class="num">'+pc(div(b.renov,b.pedidos)*100)+'</td></tr>'});
+  h+='</tbody><tfoot><tr><td>Total</td><td class="num">'+f0(tp)+'</td><td class="num">'+f0(trS)+'</td><td class="num">'+pc(div(trS,tp)*100)+'</td><td class="num">'+f0(tpO)+'</td><td class="num">'+f0(trO)+'</td><td class="num">'+pc(div(trO,tpO)*100)+'</td></tr></tfoot></table></div>';
+  h+='<p class="mut" style="font-size:12px;margin:8px 0 0">Octubre: del 1 al 11 de octubre.</p></div>';
+  /* AOV por mercado */
+  var tvS=0,tvO=0,tnS=0,tnO=0;
+  h+='<div class="card"><h3>AOV y clientes nuevos por mercado</h3><div class="tw"><table><thead><tr><th>Mercado</th><th class="num">Sep. AOV ($)</th><th class="num">Sep. nuevos</th><th class="num">Oct. AOV ($)</th><th class="num">Oct. nuevos</th></tr></thead><tbody>';
+  cs.forEach(function(c){var a=ms[c],b=mo[c];tvS+=a.ventas;tvO+=b.ventas;tnS+=a.nuevos;tnO+=b.nuevos;h+='<tr><td>'+a.n+'</td><td class="num">'+f2(div(a.ventas,a.pedidos))+'</td><td class="num">'+pc(div(a.nuevos,a.pedidos)*100)+'</td><td class="num">'+(b.pedidos?f2(div(b.ventas,b.pedidos)):'—')+'</td><td class="num">'+(b.pedidos?pc(div(b.nuevos,b.pedidos)*100):'—')+'</td></tr>'});
+  h+='</tbody><tfoot><tr><td>Total</td><td class="num">'+f2(tvS/tp)+'</td><td class="num">'+pc(div(tnS,tp)*100)+'</td><td class="num">'+f2(tvO/tpO)+'</td><td class="num">'+pc(div(tnO,tpO)*100)+'</td></tr></tfoot></table></div><p class="mut" style="font-size:12px;margin:8px 0 0">Nuevos: porcentaje de pedidos de clientes que compran por primera vez.</p></div>';
+  h+='</div>';
+  h+='<div class="stack">'
+    +call('nota','i','Definiciones','AOV: ingreso neto / pedidos del periodo. ROAS: ingreso neto / gasto Meta, sin ISDA ni fee de agencia. ncROAS: ingreso de clientes que hacen su primer pedido en la tienda, sin renovaciones ni recompras, / gasto Meta. CAC: gasto Meta / clientes nuevos. Con ISDA y fee de agencia, septiembre da ROAS '+x2(K.roas_full)+', ncROAS '+x2(K.ncroas_full)+' y CAC '+eur(K.cac_full)+'; octubre da ROAS '+x2(O.roas_full)+', ncROAS '+x2(O.ncroas_full)+' y CAC '+eur(O.cac_full)+'.')
+    +call('aviso','!','Renovaciones, base todavía corta','Las suscripciones renuevan cada 30 días y la tienda empezó a escalar en agosto. Septiembre tiene '+rS+' renovaciones y octubre ya suma '+rO+' en 11 días, así que el porcentaje sube a medida que maduran las primeras suscripciones.')
+    +call('aviso','!','Octubre es parcial','Octubre cubre del 1 al 11 de octubre, el último día con el gasto de Meta cargado. Los importes de octubre usan la tasa BCE de cada día, y la del último día publicado en los días sin cotización.')
+    +'</div>';
+
+  /* costos unitarios */
+  h+='<h2 style="margin-top:28px">Costos y precio por unidad</h2><p class="lead">Condiciones y costos reales de septiembre por tamaño de pedido: 1, 3 y 5 unidades. Importes en dólares, que es la moneda de DropSure y de la tienda.</p>';
+  var uni={};D.uni.forEach(function(u){uni[u.c+'|'+u.u]=u});
+  var cs=[['ES','España'],['US','Estados Unidos'],['MX','México'],['GB','Reino Unido'],['CA','Canadá']];
+  h+='<div class="tw"><table><thead><tr><th>Envío por pedido (USD)</th><th class="num">1 unidad, real</th><th class="num">1, cotizado</th><th class="num">3 unidades, real</th><th class="num">3, cotizado</th><th class="num">5 unidades, real</th><th class="num">5, cotizado</th></tr></thead><tbody>';
+  cs.forEach(function(c){h+='<tr><td>'+c[1]+'</td>';[1,3,5].forEach(function(u){var x=uni[c[0]+'|'+u];var q=x&&x.tarifa!=null?x.tarifa+(c[0]==='ES'?D.iss_es:0):null;h+='<td class="num">'+(x?f2(x.env):'—')+'</td><td class="num mut">'+(q!=null?f2(q):'—')+'</td>'});h+='</tr>'});
+  var tot={};[1,3,5].forEach(function(u){var n=0,e=0,v=0;D.uni.forEach(function(x){if(x.u===u){n+=x.n;e+=x.env*x.n;v+=x.venta*x.n}});tot[u]={n:n,env:e/n,venta:v/n}});
+  h+='</tbody><tfoot><tr><td>Promedio ponderado</td>'+[1,3,5].map(function(u){return '<td class="num">'+f2(tot[u].env)+'</td><td></td>'}).join('')+'</tr></tfoot></table></div>';
+  h+='<p class="mut" style="font-size:12px;margin:8px 0 0">Real: promedio facturado por DropSure en septiembre, sin su línea de producto. Cotizado: tarifa vigente de DropSure. En España ambos incluyen 3,50 $ de IOSS por pedido.</p>';
+  h+='<div class="tw" style="margin-top:16px"><table><thead><tr><th>Por tamaño de pedido</th><th class="num">Pedidos</th><th class="num">Ticket medio ($)</th><th class="num">Precio por unidad ($)</th><th class="num">Envío por unidad ($)</th><th class="num">Producto por unidad ($)</th></tr></thead><tbody>';
+  [1,3,5].forEach(function(u){var t=tot[u];h+='<tr><td>'+u+(u===1?' unidad':' unidades')+'</td><td class="num">'+f0(t.n)+'</td><td class="num">'+f2(t.venta)+'</td><td class="num">'+f2(t.venta/u)+'</td><td class="num">'+f2(t.env/u)+'</td><td class="num">1,70</td></tr>'});
+  h+='</tbody></table></div>';
+  h+='<div class="grid g4" style="margin-top:12px">'
+    +kpi(eur(K.cogs_unidad),'COGS por unidad',f0(K.units)+' unidades vendidas en el mes','', 'var(--data-1)')
+    +kpi(eur(K.cogs_pedido),'COGS por pedido','Producto + envío real de DropSure','', 'var(--data-2)')
+    +kpi('1,70 $','Producto por unidad','Costo del catálogo, cápsulas Selvia','', 'var(--data-3)')
+    +'</div>';
+  h+='<div class="stack">'+call('nota','i','Precio por unidad','El ticket medio incluye el envío que paga el cliente y es el total de ventas por pedido. El precio por unidad es el ticket medio dividido entre las unidades del pedido.')+'</div>';
+  return h;
+}
+
+var TABS=[['pl','P&L'],['kpis','KPIs']];
+var nav=$('#tabs'),app=$('#app');
+TABS.forEach(function(t){
+  var b=document.createElement('button');b.setAttribute('role','tab');b.dataset.t=t[0];b.textContent=t[1];nav.appendChild(b);
+  var p=document.createElement('section');p.className='panel';p.id='p-'+t[0];p.setAttribute('role','tabpanel');app.appendChild(p);
+  b.onclick=function(){show(t[0])};
+});
+function show(id){
+  [].forEach.call(nav.children,function(b){b.setAttribute('aria-selected',b.dataset.t===id)});
+  [].forEach.call(app.children,function(p){p.classList.toggle('on',p.id==='p-'+id)});
+  try{history.replaceState(null,'','#'+id)}catch(e){}
+}
+$('#p-pl').innerHTML=renderPL();
+$('#p-kpis').innerHTML=renderKPI();
+var h0=(location.hash||'').slice(1);
+show(document.getElementById('p-'+h0)?h0:'pl');
+</script>
