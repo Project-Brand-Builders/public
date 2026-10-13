@@ -1,0 +1,367 @@
+<title>Selvia P&L and KPIs September 2026</title>
+<link rel="preconnect" href="https://fonts.googleapis.com">
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+<link href="https://fonts.googleapis.com/css2?family=Barlow+Condensed:wght@300;500;600;700;800&display=swap" rel="stylesheet">
+<style>
+/* Layout: cabecera oscura con lockup, título, modo claro/oscuro y pestañas; debajo paneles con KPI, P&L en tabla, gráfica diaria SVG y tablas de detalle. Sistema de diseño Project Brand Builders · Informes y tableros. */
+:root{
+  --canvas:#FFFFFF;--surface:#FFFFFF;--surface-raised:#F3F4F4;--ink:#000000;--ink-muted:#545B60;
+  --line:#D5D9DB;--line-strong:#7B8388;--inverse-surface:#000000;--inverse-ink:#FFFFFF;
+  --header-surface:#111416;--header-ink:#FFFFFF;
+  --data-1:#0B7A5C;--data-2:#0E7490;--data-3:#B45309;--data-4:#C2410C;--data-5:#475569;
+  --accent:var(--data-1);--positive:var(--data-1);--info:var(--data-2);--warning:var(--data-3);--danger:var(--data-4);--on-data:#FFFFFF;
+  --positive-soft:#0B7A5C14;--info-soft:#0E749014;--warning-soft:#B4530914;--danger-soft:#C2410C14;
+  --font-condensed:"Barlow Condensed","Oswald","Roboto Condensed","Arial Narrow",sans-serif;
+  --font-body:system-ui,-apple-system,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;
+}
+@media (prefers-color-scheme: dark){:root:not([data-theme="light"]){
+  --canvas:#0B0D0E;--surface:#111416;--surface-raised:#1B1F22;--ink:#FFFFFF;--ink-muted:#A7AEB3;
+  --line:#30363A;--line-strong:#6E767B;--inverse-surface:#FFFFFF;--inverse-ink:#000000;--header-surface:#000000;
+  --data-1:#34D399;--data-2:#22D3EE;--data-3:#FBBF24;--data-4:#FB923C;--data-5:#94A3B8;--on-data:#000000;
+  --positive-soft:#34D39926;--info-soft:#22D3EE26;--warning-soft:#FBBF2426;--danger-soft:#FB923C26;color-scheme:dark}}
+:root[data-theme="dark"]{
+  --canvas:#0B0D0E;--surface:#111416;--surface-raised:#1B1F22;--ink:#FFFFFF;--ink-muted:#A7AEB3;
+  --line:#30363A;--line-strong:#6E767B;--inverse-surface:#FFFFFF;--inverse-ink:#000000;--header-surface:#000000;
+  --data-1:#34D399;--data-2:#22D3EE;--data-3:#FBBF24;--data-4:#FB923C;--data-5:#94A3B8;--on-data:#000000;
+  --positive-soft:#34D39926;--info-soft:#22D3EE26;--warning-soft:#FBBF2426;--danger-soft:#FB923C26;color-scheme:dark}
+*{box-sizing:border-box}
+body{background:var(--canvas);color:var(--ink);font:14px/1.45 var(--font-body);-webkit-text-size-adjust:100%;margin:0;padding:0}
+header{background:var(--header-surface);color:var(--header-ink);padding:16px 16px 0}
+.wrap{max-width:1280px;margin:0 auto}
+.top{display:flex;align-items:center;gap:16px;flex-wrap:wrap;justify-content:space-between}
+.brand{display:flex;align-items:center;gap:14px}
+.brand svg{width:40px;height:40px;flex:none}
+.brand .sep{width:1px;height:38px;background:#ffffff55}
+.brand .p{font:300 12px/1 var(--font-condensed);letter-spacing:.42em;text-transform:uppercase}
+.brand .b{font:800 22px/1 var(--font-condensed);letter-spacing:.04em;text-transform:uppercase;margin-top:3px}
+.brand .t{font:300 9px/1 var(--font-condensed);letter-spacing:.38em;text-transform:uppercase;margin-top:4px;opacity:.75}
+.title{font:700 26px/1.05 var(--font-condensed);letter-spacing:.03em;text-transform:uppercase}
+.sub{font-size:12px;opacity:.75;margin-top:2px}
+button,select,input{font:inherit;color:inherit}
+.tgl{background:transparent;border:1px solid #ffffff88;color:#fff;border-radius:999px;padding:6px 14px;cursor:pointer;font-size:12px;letter-spacing:.06em;text-transform:uppercase}
+.tgl:hover{background:#ffffff22}
+nav{display:flex;gap:2px;overflow-x:auto;margin-top:14px;scrollbar-width:thin}
+nav button{background:transparent;border:0;color:#ffffffb0;padding:11px 16px;cursor:pointer;font:600 14px var(--font-condensed);letter-spacing:.1em;text-transform:uppercase;white-space:nowrap;border-bottom:3px solid transparent}
+nav button[aria-selected="true"]{color:#fff;border-bottom-color:#fff}
+nav button:hover{color:#fff}
+nav .n{display:inline-block;min-width:20px;padding:0 6px;margin-left:6px;border-radius:99px;background:#ffffff26;font:600 11px/18px var(--font-body);letter-spacing:0}
+main{padding:20px 16px 48px}
+.panel{display:none}.panel.on{display:block}
+h2{font:700 24px var(--font-condensed);letter-spacing:.04em;text-transform:uppercase;margin:0 0 4px}
+h3{font:700 17px var(--font-condensed);letter-spacing:.06em;text-transform:uppercase;margin:0 0 8px}
+.lead{color:var(--ink-muted);margin:0 0 16px;max-width:90ch}
+.card{background:var(--surface);border:1px solid var(--line);border-radius:10px;padding:16px;min-width:0}
+.grid{display:grid;gap:12px}
+.g4{grid-template-columns:repeat(auto-fit,minmax(min(100%,215px),1fr))}
+.g2{grid-template-columns:repeat(auto-fit,minmax(min(100%,340px),1fr))}
+.stack{display:flex;flex-direction:column;gap:12px;margin-top:12px}
+.card.kpi{border-top:4px solid var(--c,var(--data-1))}
+.kpi .v{font:700 38px/1 var(--font-condensed);letter-spacing:.01em;font-variant-numeric:tabular-nums}
+.kpi .l{font-size:12px;color:var(--ink-muted);margin-top:6px;text-transform:uppercase;letter-spacing:.05em}
+.kpi .d{font-size:12px;margin-top:2px;color:var(--ink-muted)}
+.kpi .d.up{color:var(--positive)}.kpi .d.dn{color:var(--danger)}.kpi .d.wn{color:var(--warning)}
+ol.bul{margin:0;padding:0;list-style:none;counter-reset:b}
+ol.bul li{counter-increment:b;display:flex;gap:12px;padding:12px 0;border-bottom:1px solid var(--line)}
+ol.bul li:last-child{border:0}
+ol.bul li:before{content:counter(b);flex:none;width:28px;height:28px;border-radius:50%;background:var(--accent);color:var(--on-data);font:700 15px/28px var(--font-condensed);text-align:center}
+.tools{display:flex;flex-wrap:wrap;gap:12px;align-items:end;margin:0 0 12px;padding:12px;background:var(--surface-raised);border:1px solid var(--line);border-radius:10px}
+.tools label{display:flex;flex-direction:column;gap:3px;font-size:11px;text-transform:uppercase;letter-spacing:.06em;color:var(--ink-muted)}
+.tools input[type=number]{background:var(--surface);border:1px solid var(--line);border-radius:6px;padding:7px 9px;width:110px;color:var(--ink);font-variant-numeric:tabular-nums}
+.tools label.ck{flex-direction:row;align-items:center;gap:8px;text-transform:none;letter-spacing:0;font-size:13px;color:var(--ink)}
+.tools button{background:var(--accent);color:var(--on-data);border:0;border-radius:6px;padding:8px 12px;cursor:pointer;font-weight:600}
+:focus-visible{outline:2px solid var(--ink);outline-offset:2px}
+.tw{overflow:auto;border:1px solid var(--line);border-radius:10px;max-height:70vh}
+.tw.full{max-height:none}
+table{border-collapse:collapse;width:100%;min-width:560px;background:var(--surface)}
+th{position:sticky;top:0;background:var(--header-surface);color:#fff;text-align:left;font:600 13px var(--font-condensed);letter-spacing:.08em;text-transform:uppercase;padding:9px 10px;white-space:nowrap}
+th.num{text-align:right}
+td{padding:8px 10px;border-bottom:1px solid var(--line);vertical-align:top;font-size:13px}
+tr:hover td{background:var(--surface-raised)}
+tr.grp td{background:var(--surface-raised);font:700 14px var(--font-condensed);letter-spacing:.08em;text-transform:uppercase;border-top:2px solid var(--ink)}
+tr.sum td{font-weight:700;border-top:1px solid var(--line-strong)}
+tr.big td{font-weight:800;font-size:14px;border-top:2px solid var(--ink);background:var(--surface-raised)}
+tfoot td{font-weight:700;border-top:2px solid var(--ink);border-bottom:0;background:var(--surface-raised)}
+.num{text-align:right;font-variant-numeric:tabular-nums;white-space:nowrap}
+.mut{color:var(--ink-muted)}
+.neg{color:var(--danger)}
+.src{color:var(--ink-muted);font-size:12px;min-width:200px}
+.u{display:inline-flex;align-items:center;gap:5px;font:700 11px var(--font-body);letter-spacing:.06em;text-transform:uppercase;padding:2px 9px;border-radius:99px;border:1.5px solid var(--c,var(--ink));white-space:nowrap}
+.u.asig{background:var(--positive);color:var(--on-data);--c:var(--positive)}
+.u.est{background:var(--info-soft);color:var(--info);border-style:dashed;--c:var(--info)}
+.u.warn{background:var(--warning-soft);color:var(--warning);--c:var(--warning)}
+.u.alert{background:var(--danger);color:var(--on-data);--c:var(--danger)}
+.call{display:flex;gap:11px;padding:12px 14px;border-radius:10px;background:var(--bgc);border:1px solid color-mix(in srgb,var(--c) 35%,transparent)}
+.call.nota{--c:var(--info);--bgc:var(--info-soft)}.call.dato{--c:var(--positive);--bgc:var(--positive-soft)}.call.aviso{--c:var(--warning);--bgc:var(--warning-soft)}.call.alerta{--c:var(--danger);--bgc:var(--danger-soft)}
+.call i{flex:none;width:24px;height:24px;border-radius:50%;background:var(--c);color:var(--on-data);font:700 14px/24px var(--font-body);text-align:center;font-style:normal}
+.call>div{min-width:0}
+.call b{display:block;font:700 13px var(--font-condensed);letter-spacing:.06em;text-transform:uppercase;color:var(--c)}
+.call p{margin:2px 0 0;font-size:13px}
+.tag{display:inline-block;padding:1px 8px;border-radius:6px;background:var(--surface-raised);border:1px solid var(--line);font-size:12px;white-space:nowrap}
+.chart{width:100%;height:auto;display:block}
+.chart text{fill:var(--ink-muted);font:11px var(--font-body)}
+.legend{display:flex;gap:16px;font-size:12px;color:var(--ink-muted);margin-top:6px;flex-wrap:wrap}
+.legend i{display:inline-block;width:22px;height:10px;border:1.5px solid var(--ink);vertical-align:middle;margin-right:6px}
+.legend i.a{background:var(--data-1);border-color:var(--data-1)}
+.legend i.e{background:repeating-linear-gradient(135deg,var(--data-2) 0 2px,transparent 2px 6px);border-color:var(--data-2)}
+.dr{display:grid;grid-template-columns:150px minmax(0,1fr) 120px;gap:12px;align-items:center;padding:6px 0}
+.dr .dl{font-weight:600;font-size:13px}
+.dr .bar{display:flex;height:20px;min-width:0;background:var(--surface-raised)}
+.dr .bar i{display:block;height:100%}
+.dr .bar .sa{background:var(--data-1)}
+.dr .bar .se{background:repeating-linear-gradient(135deg,var(--data-2) 0 2px,transparent 2px 6px);border:1.5px solid var(--data-2)}
+.dr .dv{text-align:right;font-variant-numeric:tabular-nums;color:var(--ink-muted);font-size:13px}
+.notes{margin:0;padding-left:18px}
+.notes li{margin-bottom:8px;color:var(--ink-muted)}
+.notes b{color:var(--ink)}
+footer{padding:20px 16px 40px;color:var(--ink-muted);font-size:12px}
+@media (max-width:640px){.title{font-size:21px}.kpi .v{font-size:30px}.dr{grid-template-columns:100px minmax(0,1fr) 84px}}
+@media (prefers-reduced-motion:no-preference){.panel.on{animation:in .18s ease-out}@keyframes in{from{opacity:.4}to{opacity:1}}}
+h3.sec{margin:26px 0 8px}
+</style>
+
+<header>
+  <div class="wrap">
+    <div class="top">
+      <div class="brand">
+        <svg viewBox="0 0 40 40" aria-hidden="true"><path d="M8 4h6v32H8z" fill="#fff"/><path d="M17 4l15 8-9 6.5L33 25 17 36z" fill="#fff"/></svg>
+        <div class="sep"></div>
+        <div><div class="p">Project</div><div class="b">Brand Builders</div><div class="t">Build what can grow</div></div>
+      </div>
+      <button class="tgl" id="theme" aria-label="Switch between light and dark mode">Dark mode</button>
+    </div>
+    <div style="margin-top:18px">
+      <div class="title">Selvia · P&amp;L and KPIs · September 2026</div>
+      <div class="sub">Store tryselvia.com · all figures in US dollars · orders by creation date · data as of Oct 13, 2026</div>
+    </div>
+    <nav role="tablist" id="tabs"></nav>
+  </div>
+</header>
+<main><div class="wrap" id="app"></div></main>
+<footer><div class="wrap">Sources: Shopify (orders, payments, fees and disputes), fulfillment partner billing data, Meta Ads, September bank movements, payroll records and ECB reference rates for EUR-denominated items. Estimates are labeled as such.</div></footer>
+
+<script id="data" type="application/json">{"Ls":{"cogs":46446.82,"gross":137017.77,"agencia":3078.09578292,"pub":107372.04564692001,"disp":1289.3899999999999,"vars":119811.23784692002,"contrib":17206.53215307997,"shop":4780.211729310656,"klav":386.94964235095415,"fuera":1257.3405805160871,"pers":8547.634782748151,"estr":14972.136734925849,"net":2234.395418154121},"s":{"bruto":186304.09,"reemb":2839.5,"fee":11149.8022,"prod":13391.4,"envio":33055.42,"pedidos":3712,"nc":3697,"enviados":3651,"meta":102603.192764,"isda":1690.7571,"neto":183464.59},"P":{"shop":7099.6,"klav":574.7,"fuera":1867.4100000000003,"pers":12695.0,"total":22236.71},"K":{"pedidos":3712,"neto":183464.59,"meta":102603.192764,"pub":107372.04564692001,"nuevos":3532,"aov":49.424727909482755,"roas":1.7880982555970864,"roas_full":1.7086811459595461,"ncroas":1.7169258115114836,"ncroas_full":1.640669775253119,"cac":29.04960157531144,"cac_full":30.399786423250287,"gasto_dia":3579.0681882306667,"units":7803,"renov":67},"O":{"dias":11,"pedidos":2405,"neto":137263.6,"meta":76362.81590700013,"pub":79039.76228421014,"nuevos":2139,"renov":192,"aov":57.07426195426196,"roas":1.797518836486714,"roas_full":1.7366398383946215,"ncroas":1.6692481607179057,"ncroas_full":1.612713478839302,"cac":35.7002411907434,"cac_full":36.9517355232399,"gasto_dia":7185.432934928194},"series":{"dias":["2026-09-01","2026-09-02","2026-09-03","2026-09-04","2026-09-05","2026-09-06","2026-09-07","2026-09-08","2026-09-09","2026-09-10","2026-09-11","2026-09-12","2026-09-13","2026-09-14","2026-09-15","2026-09-16","2026-09-17","2026-09-18","2026-09-19","2026-09-20","2026-09-21","2026-09-22","2026-09-23","2026-09-24","2026-09-25","2026-09-26","2026-09-27","2026-09-28","2026-09-29","2026-09-30","2026-10-01","2026-10-02","2026-10-03","2026-10-04","2026-10-05","2026-10-06","2026-10-07","2026-10-08","2026-10-09","2026-10-10","2026-10-11"],"spend":[0.0,0.0,0.0,0.0,0.0,7.6117,3.708,13.596,155.015,388.5057,1211.0716000000002,2572.5301999999997,3578.6522999999997,3258.3556999999996,3974.4327000000008,4354.3069000000005,5457.0718,6399.8769,6589.5867,4099.8764,6105.2107,6091.893926779999,7207.36771186,2750.08309377,5184.35920935,6917.201608540001,7760.209443570001,6051.428435500001,8669.7970641,8570.296853450001,9188.98996950001,5763.247138250024,5390.534351750014,7147.501196000008,5829.069529439999,7031.0685792700315,7518.4896018400095,7050.115237160017,7418.372361780006,7970.064904300018,8732.30941492],"neto":[2509.23,2996.75,3182.77,82.8,209.34,3515.89,2627.33,2735.22,4720.63,5023.23,2666.68,3083.41,3576.38,4645.030000000001,5492.08,6426.26,7187.63,8281.99,9109.59,7905.63,7832.88,8834.78,9370.439999999999,3855.73,9080.369999999999,10616.16,12188.58,8013.1,13334.029999999999,14360.65,14339.95,9786.62,9457.26,15640.62,11217.93,12125.43,12639.65,13050.55,13921.7,11449.31,13634.58],"nc":[2344.4500000000003,2859.309999999999,3095.239999999999,82.8,209.31,3515.819999999999,2594.879999999999,2735.189999999999,4635.509999999995,4884.159999999996,2479.15,3083.259999999999,3376.9499999999985,4205.929999999998,5280.09999999999,6154.379999999984,6953.07999999999,7944.679999999999,8878.54,7757.810000000006,7432.3600000000015,8383.509999999993,8949.230000000001,3754.4,8540.149999999996,10223.979999999978,11510.249999999984,7706.7200000000075,12786.630000000003,13804.289999999979,13421.81,9353.72,8991.33,14736.33,10159.4,11267.48,11633.65,11527.51,13421.5,10697.73,12258.03]},"tarifa":{"ES|1":4.9,"ES|2":5.3,"ES|3":6.5,"ES|4":7.4,"ES|5":8.4,"US|1":6.1,"US|2":7.5,"US|3":9.8,"US|4":11.3,"US|5":13.3,"MX|1":6.6,"MX|2":8.3,"MX|3":11.4,"MX|4":13.2,"MX|5":16.0,"GB|1":3.9,"GB|2":4.6,"GB|3":5.8,"GB|4":6.7,"GB|5":7.7,"CA|1":5.3,"CA|2":6.8,"CA|3":8.2,"CA|4":10.1,"CA|5":11.9},"iss_es":3.5,"disp":{"lost":109.98,"open":909.41,"won":181.85,"n_cb_not_won":18,"n":24},"cuota":15,"cash":1424.17,"loop":{"mrr":194128.86,"subs":5855,"subscriptions":6030,"asof":"Oct 12, 2026","plans":[["Buy 2 & Get 1 Free","Every 58 days",2869,92675.59000000001],["Selvia \u2013 1 Unit","Every 28 days",2583,86938.59999999999],["Buy 3 & Get 2 Free","Every 88 days",346,10833.34],["Buy 2 & Get 1 Free","Every 2 months",8,223.37],["Selvia \u2013 1 Unit","Every month",4,112.34],["Buy 3 & Get 2 Free","Every 3 months",1,27.48]],"sep":{"rows":[["Spain",106,74.13,46,54,88.46,39.62,40,0],["United States",26,18.18,14,9,82.35,46.15,40,0],["United Kingdom",11,7.69,7,3,87.5,63.64,0,0]],"fasr":42.66,"fcr":37.5,"scr":0,"fa_att":143,"fa_real":61},"octo":{"rows":[["Spain",284,67.62,96,155,74.42,36.24,29.55,0],["United States",116,27.62,81,26,90.0,71.03,38.46,0],["United Kingdom",20,4.76,15,3,88.24,88.24,0,0]],"fasr":49.29,"fcr":30.51,"scr":0,"fa_att":353,"fa_real":174}}}</script>
+<script>
+var $=function(s,r){return (r||document).querySelector(s)};
+var root=document.documentElement,tb=$('#theme');
+function isDark(){var t=root.getAttribute('data-theme');return t?t==='dark':!!(window.matchMedia&&matchMedia('(prefers-color-scheme: dark)').matches)}
+function label(){tb.textContent=isDark()?'Light mode':'Dark mode'}
+function setTheme(t){root.setAttribute('data-theme',t);label();try{localStorage.setItem('pbb-theme',t)}catch(e){}}
+var saved=null;try{saved=localStorage.getItem('pbb-theme')}catch(e){}
+root.setAttribute('data-theme',saved==='dark'?'dark':'light');
+label();
+tb.onclick=function(){setTheme(isDark()?'light':'dark')};
+
+var D=JSON.parse($('#data').textContent),K=D.K,L=D.Ls,S=D.s,O=D.O;
+function fm(n,d){return Math.abs(n).toLocaleString('en-US',{maximumFractionDigits:d,minimumFractionDigits:d})}
+function f0(n){return (n<0?'−':'')+fm(n,0)}
+function f1(n){return (n<0?'−':'')+fm(n,1)}
+function f2(n){return (n<0?'−':'')+fm(n,2)}
+function usd(n){return (n<0?'−':'')+'$'+fm(n,2)}
+function pc(n){return f1(n)+'%'}
+function x2(n){return f2(n)+'x'}
+function div(a,b){return b?a/b:0}
+function call(k,sym,title,body){return '<div class="call '+k+'"><i>'+sym+'</i><div><b>'+title+'</b><p>'+body+'</p></div></div>'}
+function kpi(v,l,d,cls,c){return '<div class="card kpi" style="--c:'+c+'"><div class="v">'+v+'</div><div class="l">'+l+'</div><div class="d '+(cls||'')+'">'+d+'</div></div>'}
+var N=S.neto,NET=L.net+D.cash;
+function row(lbl,val,cls){return '<tr class="'+(cls||'')+'"><td>'+lbl+'</td><td class="num'+(val<0?' neg':'')+'">'+usd(val)+'</td><td class="num mut">'+pc(div(val,N)*100)+'</td></tr>'}
+function prow(lbl,v){return '<tr><td>'+lbl+'</td><td class="num">'+pc(v)+'</td><td class="num mut"></td></tr>'}
+function grp(t){return '<tr class="grp"><td colspan="3">'+t+'</td></tr>'}
+var MON=['Jan','Feb','Mar','Apr','May','Jun','Jul','Aug','Sep','Oct','Nov','Dec'];
+function dl(d,i){var day=+d.slice(8);return (i===0||day===1)?MON[+d.slice(5,7)-1]+' '+day:''+day}
+
+function renderPL(){
+  var h='<h2>September 2026 P&amp;L</h2><p class="lead">Selvia income statement in US dollars. Revenue and costs correspond to orders created between September 1 and 30, regardless of payout date.</p>';
+  h+='<div class="grid g4">'
+    +kpi(usd(N),'Net revenue',f0(S.pedidos)+' orders','', 'var(--data-1)')
+    +kpi(pc(div(L.gross,N)*100),'Gross margin',usd(L.gross)+' gross profit','', 'var(--data-2)')
+    +kpi(usd(L.contrib),'Contribution margin',pc(div(L.contrib,N)*100)+' of net revenue','', 'var(--data-3)')
+    +kpi(usd(NET),'Net profit',pc(div(NET,N)*100)+' of net revenue',NET>=0?'up':'dn', NET>=0?'var(--data-1)':'var(--data-4)')
+    +'</div>';
+  h+='<div class="tw full" style="margin-top:12px"><table><thead><tr><th>Line item</th><th class="num">September 2026</th><th class="num">% of net revenue</th></tr></thead><tbody>';
+  h+=grp('Revenue');
+  h+=row('Gross sales (after discounts)',S.bruto);
+  h+=row('Refunds',-S.reemb);
+  h+=row('Net revenue',N,'sum');
+  h+=grp('Cost of goods sold');
+  h+=row('Product cost',-S.prod);
+  h+=row('Shipping and gifts (incl. IOSS)',-S.envio);
+  h+=row('COGS (product + shipping)',-L.cogs,'sum');
+  h+=row('Gross profit',L.gross,'big');
+  h+=prow('Gross margin %',div(L.gross,N)*100);
+  h+=grp('Variable costs (direct selling costs)');
+  h+=row('Payment processing fees',-S.fee);
+  h+=row('Advertising spend (Facebook)',-L.pub);
+  h+=row('Disputes and chargebacks (estimated)',-L.disp);
+  h+=row('Total variable costs',-L.vars,'sum');
+  h+=grp('Contribution margin');
+  h+=row('Contribution margin',L.contrib,'big');
+  h+=prow('Contribution margin %',div(L.contrib,N)*100);
+  h+=grp('Structure costs');
+  h+=row('Shopify',-L.shop);
+  h+=row('Klaviyo',-L.klav);
+  h+=row('Apps &amp; Software',-L.fuera);
+  h+=row('Payroll / Staff',-L.pers);
+  h+=row('Total structure costs',-L.estr,'sum');
+  h+=grp('Other income');
+  h+=row('Cashback',D.cash);
+  h+=grp('Result');
+  h+=row('Net profit',NET,'big');
+  h+=prow('Net margin %',div(NET,N)*100);
+  h+='</tbody></table></div>';
+  return h;
+}
+
+function axisTop(mx){var step=Math.pow(10,Math.floor(Math.log10(mx)));var top=Math.ceil(mx/step)*step;if(top/step>5)step*=2;else if(top/step<3)step/=2;top=Math.ceil(mx/step)*step;return [top,step]}
+function chartFrame(n,top,step,fmt,W,H,m){
+  var iw=W-m.l-m.r,ih=H-m.t-m.b;
+  function X(i){return m.l+iw*(i+.5)/n}function Y(v){return m.t+ih*(1-v/top)}
+  var s='';
+  for(var g=0;g<=top+step/1000;g+=step)s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(g)+'" y2="'+Y(g)+'" stroke="var(--line)" stroke-width="1" fill="none"/><text x="'+(m.l-6)+'" y="'+(Y(g)+4)+'" text-anchor="end">'+fmt(g)+'</text>';
+  var oc=D.series.dias.indexOf('2026-10-01');
+  if(oc>0){var xo=m.l+iw*oc/n;s+='<line x1="'+xo+'" x2="'+xo+'" y1="'+m.t+'" y2="'+(m.t+ih)+'" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="2 3" fill="none"/><text x="'+(xo+6)+'" y="'+(m.t+12)+'">October</text>'}
+  D.series.dias.forEach(function(d,i){if(i%3===0||i===n-1||d==='2026-10-01')s+='<text x="'+X(i)+'" y="'+(H-12)+'" text-anchor="middle">'+dl(d,i)+'</text>'});
+  return {s:s,X:X,Y:Y,iw:iw,ih:ih};
+}
+function roll(arr,w){return arr.map(function(_,i){var a=Math.max(0,i-w+1),s=0;for(var j=a;j<=i;j++)s+=arr[j];return s/(i-a+1)})}
+function barChart(sp,color,maLabel,aria){
+  var W=900,H=270,m={l:66,r:12,t:12,b:34},n=sp.length;
+  var tt=axisTop(Math.max.apply(null,sp));var f=chartFrame(n,tt[0],tt[1],function(v){return '$'+f0(v)},W,H,m);
+  var s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="'+aria+'">'+f.s;
+  var bw=Math.max(4,f.iw/n-4);
+  sp.forEach(function(v,i){s+='<rect x="'+(f.X(i)-bw/2)+'" y="'+f.Y(v)+'" width="'+bw+'" height="'+(m.t+f.ih-f.Y(v))+'" fill="'+color+'"/>'});
+  var avg=sp.reduce(function(a,b){return a+b},0)/n;
+  s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+f.Y(avg)+'" y2="'+f.Y(avg)+'" stroke="var(--data-4)" stroke-width="2" stroke-dasharray="3 4" fill="none"/>';
+  var ma=roll(sp,7),p='';ma.forEach(function(v,i){p+=(i?'L':'M')+f.X(i)+' '+f.Y(v)});
+  s+='<path d="'+p+'" fill="none" stroke="var(--data-3)" stroke-width="2.5" stroke-dasharray="7 5"/>';
+  return s+'</svg>';
+}
+function barCard(title,sp,color,barLabel,aria){
+  var avg=sp.reduce(function(a,b){return a+b},0)/sp.length;
+  return '<div class="card" style="margin-top:12px"><h3>'+title+'</h3>'+barChart(sp,color,'',aria)+'<div class="legend"><span><i class="a" style="background:'+color+';border-color:'+color+'"></i>'+barLabel+'</span><span><i style="background:repeating-linear-gradient(135deg,var(--data-3) 0 2px,transparent 2px 6px);border-color:var(--data-3)"></i>7-day moving average</span><span><i style="background:var(--data-4);border-color:var(--data-4);height:3px"></i>Period average: '+usd(avg)+'</span></div></div>';
+}
+function roasChart(){
+  var W=900,H=270,m={l:56,r:12,t:12,b:34},n=D.series.dias.length,sp=D.series.spend,nt=D.series.neto,nc=D.series.nc;
+  var r1=[],r2=[],from=-1;
+  for(var i=0;i<n;i++){var a=Math.max(0,i-6),S1=0,N1=0,C1=0;for(var j=a;j<=i;j++){S1+=sp[j];N1+=nt[j];C1+=nc[j]}
+    if(from<0&&S1>=10000)from=i;
+    r1.push(from>=0&&i>=from?N1/S1:null);r2.push(from>=0&&i>=from?C1/S1:null)}
+  var vals=r1.concat(r2).filter(function(v){return v!=null}),lo=Math.min.apply(null,vals),hi=Math.max.apply(null,vals);
+  var step=0.25,ymin=Math.floor((lo-0.1)/step)*step,ymax=Math.ceil((hi+0.1)/step)*step;
+  var iw=W-m.l-m.r,H2=H-m.t-m.b;
+  function X(i){return m.l+iw*(i+.5)/n}function Y(v){return m.t+H2*(1-(v-ymin)/(ymax-ymin))}
+  var s='<svg class="chart" viewBox="0 0 '+W+' '+H+'" role="img" aria-label="Selvia ROAS and ncROAS, 7-day rolling, September 1 to October 11, 2026">';
+  for(var g=ymin;g<=ymax+1e-9;g+=step)s+='<line x1="'+m.l+'" x2="'+(W-m.r)+'" y1="'+Y(g)+'" y2="'+Y(g)+'" stroke="var(--line)" stroke-width="1" fill="none"/><text x="'+(m.l-6)+'" y="'+(Y(g)+4)+'" text-anchor="end">'+f2(g)+'x</text>';
+  var oc=D.series.dias.indexOf('2026-10-01');
+  if(oc>0){var xo=m.l+iw*oc/n;s+='<line x1="'+xo+'" x2="'+xo+'" y1="'+m.t+'" y2="'+(m.t+H2)+'" stroke="var(--line-strong)" stroke-width="1" stroke-dasharray="2 3" fill="none"/><text x="'+(xo+6)+'" y="'+(m.t+12)+'">October</text>'}
+  D.series.dias.forEach(function(d,i){if(i%3===0||i===n-1||d==='2026-10-01')s+='<text x="'+X(i)+'" y="'+(H-12)+'" text-anchor="middle">'+dl(d,i)+'</text>'});
+  function path(a){var p='',on=false;a.forEach(function(v,i){if(v==null){on=false;return}p+=(on?'L':'M')+X(i)+' '+Y(v);on=true});return p}
+  s+='<path d="'+path(r1)+'" fill="none" stroke="var(--data-1)" stroke-width="3"/>';
+  s+='<path d="'+path(r2)+'" fill="none" stroke="var(--data-5)" stroke-width="3" stroke-dasharray="7 5"/>';
+  r1.forEach(function(v,i){if(v!=null)s+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="2.5" fill="var(--data-1)" stroke="var(--data-1)"/>'});
+  r2.forEach(function(v,i){if(v!=null)s+='<circle cx="'+X(i)+'" cy="'+Y(v)+'" r="2.5" fill="var(--data-5)" stroke="var(--data-5)"/>'});
+  var last=n-1;
+  if(r1[last]!=null){s+='<text x="'+(X(last)-6)+'" y="'+(Y(r1[last])-9)+'" text-anchor="end" style="fill:var(--ink);font-weight:700">'+x2(r1[last])+'</text><text x="'+(X(last)-6)+'" y="'+(Y(r2[last])+17)+'" text-anchor="end" style="fill:var(--ink);font-weight:700">'+x2(r2[last])+'</text>'}
+  return s+'</svg>';
+}
+function kpi2(l,a,b,sa,sb,c){
+  return '<div class="card kpi" style="--c:'+c+'"><div class="l" style="margin:0 0 8px">'+l+'</div><div style="display:grid;grid-template-columns:1fr 1fr;gap:12px">'
+   +'<div><div class="d" style="margin:0 0 2px">September</div><div class="v">'+a+'</div><div class="d">'+sa+'</div></div>'
+   +'<div><div class="d" style="margin:0 0 2px">October, 1–'+O.dias+'</div><div class="v">'+b+'</div><div class="d">'+sb+'</div></div></div></div>';
+}
+function renderKPI(){
+  var h='<h2>Selvia KPIs: September and October</h2><p class="lead">Full September and October 1–'+O.dias+', 2026 (the latest day with ad spend data available). Orders and amounts are by order creation date, in US dollars.</p>';
+  h+='<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))">'
+    +kpi2('AOV (average order value)',usd(K.aov),usd(O.aov),f0(K.pedidos)+' orders',f0(O.pedidos)+' orders','var(--data-1)')
+    +kpi2('ROAS',x2(K.roas),x2(O.roas),'Net revenue / Meta spend of '+usd(K.meta),'Net revenue / Meta spend of '+usd(O.meta),'var(--data-2)')
+    +kpi2('ncROAS (new customers)',x2(K.ncroas),x2(O.ncroas),'New-customer revenue / Meta spend','New-customer revenue / Meta spend','var(--data-2)')
+    +kpi2('CAC',usd(K.cac),usd(O.cac),f0(K.nuevos)+' new customers',f0(O.nuevos)+' new customers','var(--data-3)')
+    +kpi2('Average daily ad spend',usd(K.gasto_dia),usd(O.gasto_dia),'30-day average, incl. ISDA tax and agency fee',O.dias+'-day average, incl. ISDA tax and agency fee','var(--data-3)')
+    +kpi2('% of renewals (subscriptions)',pc(div(K.renov,K.pedidos)*100),pc(div(O.renov,O.pedidos)*100),K.renov+' of '+f0(K.pedidos)+' orders',O.renov+' of '+f0(O.pedidos)+' orders','var(--data-5)')
+    +'</div>';
+  h+=barCard('Daily net revenue ($)',D.series.neto,'var(--data-2)','Net revenue of the day','Daily net revenue of Selvia in US dollars, September 1 to October 11, 2026');
+  h+=barCard('Daily ad spend ($)',D.series.spend,'var(--data-1)','Spend of the day, incl. ISDA tax and agency fee','Daily ad spend of Selvia in US dollars, September 1 to October 11, 2026');
+  h+='<div class="card" style="margin-top:12px"><h3>ROAS and ncROAS (7-day rolling)</h3>'+roasChart()+'<div class="legend"><span><i class="a"></i>ROAS: net revenue / Meta spend</span><span><i style="background:repeating-linear-gradient(135deg,var(--data-5) 0 2px,transparent 2px 6px);border-color:var(--data-5)"></i>ncROAS: new-customer revenue / Meta spend</span></div><p class="mut" style="font-size:12px;margin:8px 0 0">The axis does not start at zero so the gap between both lines is visible. The series starts on '+D.series.dias.filter(function(d,i){var S1=0;for(var j=Math.max(0,i-6);j<=i;j++)S1+=D.series.spend[j];return S1>=10000})[0].replace('2026-09-','Sep ')+', once the previous 7 days of ad spend exceed $10,000.</p></div>';
+  h+=renderRenewals();
+  return h;
+}
+
+function renderRenewals(){
+  var Lp=D.loop;
+  var h='<h2 style="margin-top:28px">Subscription renewals</h2><p class="lead">Subscription base and billing performance from the subscription platform. Active figures are a snapshot as of '+Lp.asof+'; payment metrics cover September and October 1–'+O.dias+'.</p>';
+  h+='<div class="grid" style="grid-template-columns:repeat(auto-fit,minmax(min(100%,300px),1fr))">'
+    +kpi(usd(Lp.mrr),'Active MRR','Monthly recurring revenue of '+f0(Lp.subscriptions)+' active subscriptions','', 'var(--data-1)')
+    +kpi(f0(Lp.subs),'Active subscribers',f0(Lp.subscriptions)+' active subscriptions','', 'var(--data-2)')
+    +'</div>';
+  h+='<div class="grid" style="margin-top:12px;grid-template-columns:repeat(auto-fit,minmax(min(100%,400px),1fr))">'
+    +kpi2('First attempt success rate',pc(Lp.sep.fasr),pc(Lp.octo.fasr),f0(Lp.sep.fa_real)+' of '+f0(Lp.sep.fa_att)+' renewals paid on the first attempt',f0(Lp.octo.fa_real)+' of '+f0(Lp.octo.fa_att)+' renewals paid on the first attempt','var(--data-3)')
+    +kpi2('First cycle recovery rate',pc(Lp.sep.fcr),pc(Lp.octo.fcr),'Failed first attempts recovered in the first retry cycle','Failed first attempts recovered in the first retry cycle','var(--data-5)')
+    +'</div>';
+  var pm=Lp.plans.slice(),tc=0,tm=0;pm.forEach(function(p){tc+=p[2];tm+=p[3]});
+  pm.push(['Other plans','',Lp.subs-tc,Lp.mrr-tm]);
+  h+='<div class="card" style="margin-top:12px"><h3>Active subscribers by plan</h3><div class="tw"><table><thead><tr><th>Plan</th><th>Frequency</th><th class="num">Active subscribers</th><th class="num">% of subscribers</th><th class="num">MRR</th><th class="num">% of MRR</th></tr></thead><tbody>';
+  pm.forEach(function(p){h+='<tr><td>'+p[0]+'</td><td>'+p[1]+'</td><td class="num">'+f0(p[2])+'</td><td class="num">'+pc(p[2]/Lp.subs*100)+'</td><td class="num">'+usd(p[3])+'</td><td class="num">'+pc(p[3]/Lp.mrr*100)+'</td></tr>'});
+  h+='</tbody><tfoot><tr><td>Total</td><td></td><td class="num">'+f0(Lp.subs)+'</td><td class="num">100.0%</td><td class="num">'+usd(Lp.mrr)+'</td><td class="num">100.0%</td></tr></tfoot></table></div></div>';
+  function tbl(title,P){
+    var a=0,r=0,u=0;P.rows.forEach(function(x){a+=x[1];r+=x[3];u+=x[4]});
+    var lost=a-r-u,t='<div class="card" style="margin-top:12px"><h3>Country-wise payment distribution: '+title+'</h3><div class="tw"><table><thead><tr><th>Country</th><th class="num">Attempted</th><th class="num">Realized</th><th class="num">Under recovery</th><th class="num">Realization</th><th class="num">First attempt success rate</th><th class="num">First cycle recovery rate</th><th class="num">Subsequent cycle recovery rate</th></tr></thead><tbody>';
+    P.rows.forEach(function(x){t+='<tr><td>'+x[0]+'</td><td class="num">'+f0(x[1])+' ('+f2(x[2])+'%)</td><td class="num">'+f0(x[3])+'</td><td class="num">'+f0(x[4])+'</td><td class="num">'+f2(x[5])+'%</td><td class="num">'+f2(x[6])+'%</td><td class="num">'+f2(x[7])+'%</td><td class="num">'+f2(x[8])+'%</td></tr>'});
+    t+='</tbody><tfoot><tr><td>Total</td><td class="num">'+f0(a)+'</td><td class="num">'+f0(r)+'</td><td class="num">'+f0(u)+'</td><td class="num">'+f2(r/(r+lost)*100)+'%</td><td class="num">'+f2(P.fasr)+'%</td><td class="num">'+f2(P.fcr)+'%</td><td class="num">'+f2(P.scr)+'%</td></tr></tfoot></table></div></div>';
+    return t;
+  }
+  h+=tbl('September',Lp.sep)+tbl('October 1–'+O.dias,Lp.octo);
+  h+='<p class="mut" style="font-size:12px;margin:8px 0 0">Attempted counts every renewal order billed in the period, including orders already in recovery. Realization = realized / (realized + lost). First attempt success rate counts first billing attempts only. Countries with no renewal activity in the period are not listed.</p>';
+  return h;
+}
+
+function renderCosts(){
+  var T=D.tarifa,cs=[['ES','Spain'],['US','United States'],['MX','Mexico'],['GB','United Kingdom'],['CA','Canada']];
+  var JK={ES:{1:4.10,2:4.80,3:5.70,5:6.60},MX:{1:5.50,2:6.90,3:8.30,5:11.20},US:{1:4.90,2:6.10,3:7.20,5:9.40}};
+  var h='<h2>Costs and terms</h2><p class="lead">Current cost structure with DropSure and the quote from the new fulfillment partner (JACK) and manufacturer (Kuby). All amounts in US dollars.</p>';
+  h+='<h3 class="sec">Product cost per unit</h3>';
+  h+='<div class="tw"><table><thead><tr><th>Supplier</th><th>Product</th><th class="num">Cost per unit</th><th class="num">Difference vs. current</th></tr></thead><tbody>'
+    +'<tr><td>Current (DropSure)</td><td>Selvia capsules, main product. White label, 120 capsules per unit</td><td class="num">$1.70</td><td class="num mut">—</td></tr>'
+    +'<tr><td>Kuby (new manufacturer)</td><td>Selvia capsules. 60 capsules per unit, with own packaging</td><td class="num">$1.90</td><td class="num">+$0.20 (+11.8%)</td></tr>'
+    +'</tbody></table></div>';
+  h+='<h3 class="sec">Current shipping cost per order, DropSure</h3>';
+  h+='<div class="tw"><table><thead><tr><th>Country</th>'+[1,2,3,4,5].map(function(u){return '<th class="num">'+u+(u===1?' unit':' units')+'</th>'}).join('')+'</tr></thead><tbody>';
+  cs.forEach(function(c){h+='<tr><td>'+c[1]+'</td>'+[1,2,3,4,5].map(function(u){return '<td class="num">'+usd(T[c[0]+'|'+u])+'</td>'}).join('')+'</tr>'});
+  h+='</tbody></table></div><p class="mut" style="font-size:12px;margin:8px 0 0">DropSure rate card per order. Orders shipped to Spain also carry a $'+f2(D.iss_es)+' IOSS fee per order, not included in the Spain rates above.</p>';
+  h+='<h3 class="sec">Shipping cost comparison: DropSure vs. JACK</h3>';
+  h+='<div class="tw"><table><thead><tr><th>Country</th><th class="num">Units</th><th class="num">DropSure</th><th class="num">JACK</th><th class="num">Difference</th><th class="num">Difference %</th></tr></thead><tbody>';
+  ['ES','MX','US'].forEach(function(c){var nm=cs.filter(function(x){return x[0]===c})[0][1];[1,2,3,5].forEach(function(u,i){var a=T[c+'|'+u],b=JK[c][u],d=b-a;
+    h+='<tr><td>'+(i===0?nm:'')+'</td><td class="num">'+u+'</td><td class="num">'+usd(a)+'</td><td class="num">'+usd(b)+'</td><td class="num '+(d<0?'':'neg')+'" style="'+(d<0?'color:var(--positive)':'')+'">'+(d<0?'−':'+')+'$'+fm(d,2)+'</td><td class="num">'+(d<0?'−':'+')+fm(Math.abs(d)/a*100,1)+'%</td></tr>'})});
+  h+='</tbody></table></div><p class="mut" style="font-size:12px;margin:8px 0 0">JACK quotes cover Spain, Mexico and the United States. Spain DropSure rates exclude the $'+f2(D.iss_es)+' IOSS fee per order.</p>';
+  h+='<h3 class="sec">Commercial terms: new fulfillment and manufacturer</h3>';
+  h+='<div class="grid g2">'
+    +'<div class="card"><h3>Fulfillment: JACK</h3><div class="tw"><table><tbody>'
+    +'<tr><td>Payment terms</td><td class="num">15 days of credit</td></tr>'
+    +'<tr><td>Shipping rates</td><td class="num">Pending final confirmation</td></tr>'
+    +'</tbody></table></div></div>'
+    +'<div class="card"><h3>Manufacturer: Kuby</h3><div class="tw"><table><tbody>'
+    +'<tr><td>Payment terms</td><td class="num">15 days of credit</td></tr>'
+    +'<tr><td>First production run</td><td class="num">15 days</td></tr>'
+    +'<tr><td>Reorders</td><td class="num">5 days</td></tr>'
+    +'<tr><td>Product rate</td><td class="num">$1.90 per unit (60 capsules, own packaging)</td></tr>'
+    +'</tbody></table></div></div>'
+    +'</div>';
+  return h;
+}
+
+var TABS=[['pl','P&L'],['kpis','KPIs'],['costs','Costs &amp; Terms']];
+var nav=$('#tabs'),app=$('#app');
+TABS.forEach(function(t){
+  var b=document.createElement('button');b.setAttribute('role','tab');b.dataset.t=t[0];b.innerHTML=t[1];nav.appendChild(b);
+  var p=document.createElement('section');p.className='panel';p.id='p-'+t[0];p.setAttribute('role','tabpanel');app.appendChild(p);
+  b.onclick=function(){show(t[0])};
+});
+function show(id){
+  [].forEach.call(nav.children,function(b){b.setAttribute('aria-selected',b.dataset.t===id)});
+  [].forEach.call(app.children,function(p){p.classList.toggle('on',p.id==='p-'+id)});
+  try{history.replaceState(null,'','#'+id)}catch(e){}
+}
+$('#p-pl').innerHTML=renderPL();
+$('#p-kpis').innerHTML=renderKPI();
+$('#p-costs').innerHTML=renderCosts();
+var h0=(location.hash||'').slice(1);
+show(document.getElementById('p-'+h0)?h0:'pl');
+</script>
